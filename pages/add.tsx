@@ -26,7 +26,7 @@ const Add: NextPage = () => {
     const [formData, setFormData] = useState({
         client: '',
         date: '',
-        dateEchaice: '',
+        dueDate: '',
         status: options2[0],
         price: '',
         type: ''
@@ -57,8 +57,8 @@ const handleSubmit = (e)=>{
                         <input placeholder='Date ' type="date" value={formData.date} onChange={e=>setFormData({...formData, date:e.target.value})} className='w-full h-[45px] rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  border px-2' />
                     </div>
                     <div className='mb-5'>
-                        <label className='mb-2 block'>Date Echaice:</label>
-                        <input placeholder='Date Echaice' type="date" value={formData.dateEchaice} onChange={e=>setFormData({...formData, dateEchaice:e.target.value})} className='w-full h-[45px] rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  border px-2' />
+                        <label className='mb-2 block'>Due Date:</label>
+                        <input placeholder='Date Echaice' type="date" value={formData.dueDate} onChange={e=>setFormData({...formData, dueDate:e.target.value})} className='w-full h-[45px] rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  border px-2' />
                     </div>
                     <div className='mb-5'>
                         <label className='mb-2 block'>Price / Montant:</label>
@@ -68,10 +68,10 @@ const handleSubmit = (e)=>{
                         <label className='mb-2 block'>Type Cheque:</label>
                         <Select instanceId="options1" isSearchable={false} options={options1} value={formData.type} onChange={e=>setFormData({...formData, type:e})} className="mb-2 " placeholder="Type Cheque" styles={customStyles} />
                     </div>
-                    <div className='mb-5'>
+                    {/* <div className='mb-5'>
                         <label className='mb-2 block'>Status / Etat:</label>
                         <Select instanceId="options2" isSearchable={false} value={formData.status} onChange={(e) => setFormData({ ...formData, status: e })} options={options2} className="mb-2 " placeholder="Status / Etat" styles={customStyles} />
-                    </div>
+                    </div> */}
                     <input type="submit" value="Save" className='w-full bg-[#3690ff] py-3  px-2 h-[45px] rounded-[4px] cursor-pointer text-white hover:bg-blue-600' />
                 </form>
             </div>
