@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 
-const Main = ({ children, title }: { children: React.ReactElement, title:string }) => {
+const Main = ({ children, title }: { children: React.ReactElement, title: string }) => {
     return <div>
         <Head>
             <title>Create Next App</title>
@@ -23,16 +23,15 @@ const Main = ({ children, title }: { children: React.ReactElement, title:string 
                                 label: 'Add New',
                                 href: "/add"
                             },
-                        ].map((item, index) => <Link  key={index} href={item.href} ><li className='py-2 px-4 hover:bg-[#132a50] cursor-pointer '>{item.label}</li></Link>)
+                        ].map((item, index) => <Link key={index} href={item.href} ><li className='py-2 px-4 hover:bg-[#132a50] cursor-pointer '>{item.label}</li></Link>)
                     }
                 </ul>
             </div>
-            <div className='w-10/12 bg-gray-200 p-2 px-10 flex flex-col justify-center items-center overflow-auto'>
-               <div className="flex w-full mb-3 justify-start ">
-               <h1 className="text-4xl">{title}</h1>
-               </div>
-                <div className=' bg-white shadow p-5'>
-                    {children}
+            <div className='w-10/12 pt-20 bg-gray-200  flex flex-col overflow-auto '>
+                <div className="container mx-auto max-w-6xl ">
+                    <div className=' '>
+                        {children}
+                    </div>
                 </div>
             </div>
         </div>

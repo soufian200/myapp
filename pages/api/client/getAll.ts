@@ -9,10 +9,7 @@ import Client from '../../../models/Client';
 const handler = async (req:NextApiRequest, res: NextApiResponse<any>) => {
  
 
-//   var client = new Client();
-  
   const result = await Client.find().select("-__v");
-  console.log(result)
   return res.status(200).json({ clients: result})
 };
 
