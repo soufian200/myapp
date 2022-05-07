@@ -55,7 +55,7 @@ const Add: NextPage = () => {
         try {
             setClients({ ...clients, loading: true })
 
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/client/getAll`)
+            const res = await axios.get(`${location.origin}/api/client/getAll`)
 
             const options = res.data.clients.map((client: any, index: number) => ({ value: client._id, label: client.name }))
 
@@ -72,7 +72,7 @@ const Add: NextPage = () => {
         try {
             setBillTypes({ ...billTypes, loading: true })
 
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/bill-types/getAll`)
+            const res = await axios.get(`${location.origin}/api/bill-types/getAll`)
 
             const options = res.data.results.map((billTypes: any, index: number) => ({ value: billTypes._id, label: billTypes.label }))
 
