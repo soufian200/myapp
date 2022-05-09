@@ -4,7 +4,7 @@ import Select from 'react-select'
 import { useState } from 'react'
 import axios from 'axios'
 
-import { AiFillCheckCircle } from 'react-icons/ai';
+import { AiFillCheckCircle, AiOutlineClose } from 'react-icons/ai';
 
 const Add: NextPage = () => {
 
@@ -27,7 +27,7 @@ const Add: NextPage = () => {
             setMsg('')
             console.log(formData)
             try {
-                const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bill/add`, formData)
+                const res = await axios.post(`${location.origin}/api/bill/add`, formData)
                 console.log(res.data)
                 setMsg(res.data.msg)
                 setFormData({
@@ -95,9 +95,14 @@ const Add: NextPage = () => {
                 <div className='bg-white w-[600px] shadow p-5'>
                     <form className='' onSubmit={handleSubmit}>
                         {
-                            msg && <div className='bg-green-100 flex items-center border border-green-400 text-green-600 p-3 mb-3 rounded'>
-                                <AiFillCheckCircle size={25} />
-                                <p className='ml-2 capitalize'>{msg}</p>
+                            msg && <div className='bg-green-100 flex items-center justify-between border border-green-400 text-green-600 p-3 mb-3 rounded'>
+                                <div className='flex items-center'>
+                                    <AiFillCheckCircle size={25} />
+                                    <p className='ml-2 capitalize'>{msg}</p>
+                                </div>
+                                <div onClick={() => setMsg('')} className='w-[30px] h-[30px] hover:bg-green-200 rounded cursor-pointer flex justify-center items-center'>
+                                    <AiOutlineClose size={18} />
+                                </div>
                             </div>
                         }
                         <div className='mb-5'>

@@ -256,7 +256,7 @@ const Home: NextPage = () => {
                           setDeleteBillLoading(true)
                           setMsg('')
                           try {
-                            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/bill/delete`, { id: billId })
+                            const res = await axios.post(`${location.origin}/api/bill/delete`, { id: billId })
 
                             setMsg(res.data.msg)
 
