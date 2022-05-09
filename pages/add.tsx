@@ -106,7 +106,8 @@ const Add: NextPage = () => {
                         </div>
                         <div className='mb-5'>
                             <label className='mb-2 block'>Due Date:</label>
-                            <input placeholder='Date Echaice' type="date" value={formData.dueDate} onChange={e => setFormData({ ...formData, dueDate: e.target.value })} className='w-full h-[45px] rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  border px-2' />
+                            <input placeholder='Date Echaice' type="date" value={formData.dueDate}
+                                onChange={e => setFormData({ ...formData, dueDate: e.target.value })} className='w-full h-[45px] rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  border px-2' />
                         </div>
                         <div className='mb-5'>
                             <label className='mb-2 block'>Price / Montant (MAD):</label>

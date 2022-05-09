@@ -24,13 +24,15 @@ const Home: NextPage = () => {
 
   }
 
-  const [bills, setBills] = useState({ loading: false, data: [] })
+  const [bills, setBills] = useState([])
+  const [billsLoading, setBillsLoading] = useState(true)
   const [originBills, setOriginBills] = useState([])
   const [clients, setClients] = useState<{ loading: boolean, data: any }>({ loading: false, data: [] })
   const [billTypes, setBillTypes] = useState<{ loading: boolean, data: any }>({ loading: false, data: [] })
   const [filteredData, setFilteredData] = useState<any>({
     client: { value: '', label: 'Client' },
-    type: { value: '', label: 'Type' }
+    type: { value: '', label: 'Type' },
+    dateRange: { from: '', to: '' }
   })
   const [msg, setMsg] = useState('')
   const [deleteBillLoading, setDeleteBillLoading] = useState(false)
@@ -69,20 +71,19 @@ const Home: NextPage = () => {
   useEffect(() => {
 
     const loadBills = async () => {
-      if (bills.data.length > 0) return;
+      if (bills.length > 0) return;
       try {
-        setBills({ ...bills, loading: true })
-
+        setBills([...bills])
         const res = await axios.get(`${location.origin}/api/bill/getAll`)
         const { results } = res.data;
-        // console.log(results)
-        setBills({ ...bills, loading: false, data: results })
+        setBills(results)
+        setBillsLoading(false)
 
       } catch (e) {
         console.log(e)
       }
     }
-    console.log()
+
     loadBills();
   }, [])
 
@@ -104,11 +105,18 @@ const Home: NextPage = () => {
       d = originBills
     } else {
 
-      setOriginBills(bills.data)
-      d = bills.data
+      setOriginBills(bills)
+      d = bills
     }
     r = _.filter(d, obj);
-    setBills({ loading: false, data: r })
+
+    if (filteredData.dateRange.from != '') {
+      r = _.filter(r, (i: any) => moment(filteredData.dateRange.from).isBefore(formatDate(i.dueDate)) || moment(filteredData.dateRange.from).isSame(formatDate(i.dueDate)));
+    }
+    if (filteredData.dateRange.to != '') {
+      r = _.filter(r, (i: any) => moment(filteredData.dateRange.to).isAfter(formatDate(i.dueDate)) || moment(filteredData.dateRange.to).isSame(formatDate(i.dueDate)));
+    }
+    setBills(r)
 
 
 
@@ -122,20 +130,34 @@ const Home: NextPage = () => {
           <h1 className="text-4xl">All</h1>
         </div>
         <div className='my-2 flex '>
-          <div className='w-[130px]'>
+          <div className='w-[130px] mr-3'>
             <Select instanceId="options" onMenuOpen={getClients} options={clients.data} isLoading={clients.loading} value={filteredData.client}
               onChange={e => {
                 setFilteredData({ ...filteredData, client: e })
               }}
-              className="mr-3" placeholder="Client" />
+              className="" placeholder="Client" />
           </div>
-          <div className='w-[130px]'>
+          <div className='w-[130px] mr-3'>
             <Select instanceId="options1" onMenuOpen={getBillTypes} isSearchable={false} options={billTypes.data} isLoading={billTypes.loading} value={filteredData.type}
               onChange={e => {
                 setFilteredData({ ...filteredData, type: e })
               }} className="mb-2 " placeholder="Type" />
-
           </div>
+          <div>
+            <label className='text-gray-500'>From: </label>
+            <input placeholder='Date Echaice' type="date"
+              value={filteredData.dateRange.from}
+              onChange={e => setFilteredData({ ...filteredData, dateRange: { ...filteredData.dateRange, from: e.target.value } })}
+              className='h-[38px] mr-3 rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  border px-2' />
+          </div>
+          <div>
+            <label className='text-gray-500'>To: </label>
+            <input placeholder='Date Echaice' type="date"
+              value={filteredData.dateRange.to}
+              onChange={e => setFilteredData({ ...filteredData, dateRange: { ...filteredData.dateRange, to: e.target.value } })}
+              className='h-[38px] mr-3 rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  border px-2' />
+          </div>
+
         </div>
         {
           msg && <div className='bg-red-100 flex items-center justify-between border border-red-400 text-red-600 p-3 mb-3 rounded'>
@@ -182,10 +204,9 @@ const Home: NextPage = () => {
                 </tr>
               </thead>
 
-              {bills.data.length > 0 && <tbody className="bg-white">
-
+              {bills.length > 0 && !billsLoading && <tbody className="bg-white">
                 {
-                  bills.data.map((bill: any, index) => {
+                  bills.map((bill: any, index) => {
                     return <tr key={index} className="whitespace-nowrap">
                       <td className="px-6 py-4 text-sm text-gray-500">
                         {index + 1}
@@ -223,15 +244,14 @@ const Home: NextPage = () => {
 
                             setMsg(res.data.msg)
 
-                            const filteredBills = bills.data.filter((i: any) => i._id != billId)
-                            setBills({ ...bills, data: filteredBills })
+                            const filteredBills = bills.filter((i: any) => i._id != billId)
+                            setBills(filteredBills)
 
                           } catch (e) {
                             console.log(e)
                           }
                           setDeleteBillLoading(false)
                         }} className={` ${deleteBillLoading ? "pointer-events-none" : "pointer-events-auto"} w-[30px] h-[30px] rounded-full cursor-pointer hover:bg-gray-300 flex justify-center items-center`}>
-
                           {!deleteBillLoading ? <AiOutlineDelete size={20} /> : <h1>...</h1>}
                         </div>
                       </td>
@@ -240,10 +260,10 @@ const Home: NextPage = () => {
                 }
               </tbody>}
             </table>
-            {bills.loading && <div className='flex justify-center items-center py-10  w-full'>
+            {billsLoading && <div className='flex justify-center items-center py-10  w-full'>
               <p className='text-gray-500' >Loading...</p>
             </div>}
-            {bills.data.length == 0 && !bills.loading && <div className='flex justify-center items-center py-10  w-full'>
+            {!billsLoading && bills.length == 0 && <div className='flex justify-center items-center py-10  w-full'>
               <p className='text-gray-500' >No Bills Here</p>
             </div>}
           </div>
