@@ -32,7 +32,8 @@ const Home: NextPage = () => {
   const [filteredData, setFilteredData] = useState<any>({
     client: { value: '', label: 'Client' },
     type: { value: '', label: 'Type' },
-    dateRange: { from: '', to: '' }
+    dateRange: { from: '', to: '' },
+    price: { min: '', max: '' }
   })
   const [msg, setMsg] = useState('')
   const [deleteBillLoading, setDeleteBillLoading] = useState(false)
@@ -116,6 +117,12 @@ const Home: NextPage = () => {
     if (filteredData.dateRange.to != '') {
       r = _.filter(r, (i: any) => moment(filteredData.dateRange.to).isAfter(formatDate(i.dueDate)) || moment(filteredData.dateRange.to).isSame(formatDate(i.dueDate)));
     }
+    if (filteredData.price.min != '') {
+      r = _.filter(r, (i: any) => i.price >= Number(filteredData.price.min));
+    }
+    if (filteredData.price.max != '') {
+      r = _.filter(r, (i: any) => i.price <= Number(filteredData.price.max));
+    }
     setBills(r)
 
 
@@ -123,13 +130,14 @@ const Home: NextPage = () => {
 
   }, [filteredData])
 
+
   return (
     <Main title='All'>
       <div>
         <div className="mb-3 w-[600px] ">
           <h1 className="text-4xl">All</h1>
         </div>
-        <div className='my-2 flex '>
+        <div className='my-2 h-[38px]  flex items-center'>
           <div className='w-[130px] mr-3'>
             <Select instanceId="options" onMenuOpen={getClients} options={clients.data} isLoading={clients.loading} value={filteredData.client}
               onChange={e => {
@@ -141,7 +149,7 @@ const Home: NextPage = () => {
             <Select instanceId="options1" onMenuOpen={getBillTypes} isSearchable={false} options={billTypes.data} isLoading={billTypes.loading} value={filteredData.type}
               onChange={e => {
                 setFilteredData({ ...filteredData, type: e })
-              }} className="mb-2 " placeholder="Type" />
+              }} className=" " placeholder="Type" />
           </div>
           <div>
             <label className='text-gray-500'>From: </label>
@@ -156,6 +164,14 @@ const Home: NextPage = () => {
               value={filteredData.dateRange.to}
               onChange={e => setFilteredData({ ...filteredData, dateRange: { ...filteredData.dateRange, to: e.target.value } })}
               className='h-[38px] mr-3 rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  border px-2' />
+          </div>
+
+          <div className='flex items-center'>
+            <label className='text-gray-500'>Price: </label>
+            <div className='flex '>
+              <input placeholder='Min' type="number" value={filteredData.price.min} onChange={e => setFilteredData({ ...filteredData, price: { ...filteredData.price, min: e.target.value } })} className='h-[38px] w-[110px] rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  ml-2 border px-2' />
+              <input placeholder='Max' type="number" value={filteredData.price.max} onChange={e => setFilteredData({ ...filteredData, price: { ...filteredData.price, max: e.target.value } })} className='h-[38px] w-[110px]  rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  ml-2 border px-2' />
+            </div>
           </div>
 
         </div>
