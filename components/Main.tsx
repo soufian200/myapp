@@ -10,7 +10,7 @@ const Main = ({ children, title }: { children: React.ReactElement, title: string
             <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <div className='bg-green-300 flex overflow-hidden'>
+        <div className=' flex overflow-hidden'>
             <div className='w-2/12 h-screen bg-[#0f203c] text-white'>
                 <ul className='mt-10'>
                     {

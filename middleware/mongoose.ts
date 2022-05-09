@@ -7,7 +7,7 @@ const connectDB = (handler: any) => async (req: NextApiRequest, res: NextApiResp
     return handler(req, res);
   }
   // Use new db connection
-  // await mongoose.connect("mongodb://localhost:27017/mydb", );
+  // await mongoose.connect("mongodb://localhost:27017/mydb",);
   await mongoose.connect(process.env.MONGODB_URI as string,);
 
   return handler(req, res);
