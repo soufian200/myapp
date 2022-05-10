@@ -1,24 +1,31 @@
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { FiUsers } from "react-icons/fi";
+import { MdClearAll } from "react-icons/md";
 
 const Main = ({ children, }: { children: React.ReactElement, }) => {
     const links = [
         {
             label: 'All',
-            href: "/"
-        },
-        {
-            label: 'Add New',
-            href: "/add"
+            href: "/",
+            icon: <MdClearAll size={23} />
         },
         {
             label: 'Clients',
-            href: "/clients"
+            href: "/clients",
+            icon: <FiUsers size={23} />
         },
         {
-            label: 'Add New Client',
-            href: "/newclient"
+            label: 'Add New',
+            href: "/add",
+            icon: <AiOutlinePlusCircle size={23} />
+        },
+        {
+            label: 'Add Client',
+            href: "/newclient",
+            icon: <AiOutlinePlusCircle size={23} />
         },
     ]
     return <>
@@ -32,7 +39,18 @@ const Main = ({ children, }: { children: React.ReactElement, }) => {
             <div className='w-2/12 h-screen overflow-hidden bg-[#031e49] text-white'>
                 <ul className='mt-10 '>
                     {
-                        links.map((item, index) => <Link key={index} href={item.href} ><li className='py-2 px-4 hover:bg-[#455e87] cursor-pointer '>{item.label}</li></Link>)
+                        links.map((item, index) => <Link key={index} href={item.href} >
+                            <li className='py-4 px-4 hover:bg-[#455e87] cursor-pointer '>
+                                <div className="flex items-center ml-3">
+                                    {
+                                        item.icon
+                                    }
+                                    <h1 className="ml-4">
+                                        {item.label}
+                                    </h1>
+                                </div>
+                            </li>
+                        </Link>)
                     }
                 </ul>
             </div>

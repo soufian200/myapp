@@ -46,7 +46,7 @@ const Clients = () => {
             const filteredBills = clients.filter((i: any) => i._id != id)
             setClients(filteredBills)
         } catch (e: any) {
-            setErr(e.response.status < 500 ? e.response.data.msg : 'failed to save client. please try again')
+            setErr(e.response.status < 500 ? e.response.data.msg : 'Failed to save client. Please try again')
         }
         setDeleteClientLoading(false)
     }

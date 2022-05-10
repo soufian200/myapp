@@ -22,12 +22,12 @@ const NewClient: NextPage = () => {
 
         try {
             const res = await axios.post(`${location.origin}/api/client/add`, formData)
-            console.log(res.data)
+            // console.log(res.data)
             setMsg(res.data.msg)
             setName('')
         } catch (e: any) {
 
-            setErr(e.response.status < 500 ? e.response.data.msg : 'failed to save client. please try again')
+            setErr(e.response.status < 500 ? e.response.data.msg : 'Failed to save client. Please try again')
         }
         setAddClientLoading(false)
     }
