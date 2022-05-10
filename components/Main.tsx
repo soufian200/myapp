@@ -3,6 +3,24 @@ import Link from "next/link";
 import React from "react";
 
 const Main = ({ children, }: { children: React.ReactElement, }) => {
+    const links = [
+        {
+            label: 'All',
+            href: "/"
+        },
+        {
+            label: 'Add New',
+            href: "/add"
+        },
+        {
+            label: 'Clients',
+            href: "/clients"
+        },
+        {
+            label: 'Add New Client',
+            href: "/newclient"
+        },
+    ]
     return <>
         <Head>
             <title>Create Next App</title>
@@ -14,20 +32,7 @@ const Main = ({ children, }: { children: React.ReactElement, }) => {
             <div className='w-2/12 h-screen overflow-hidden bg-[#031e49] text-white'>
                 <ul className='mt-10 '>
                     {
-                        [
-                            {
-                                label: 'All',
-                                href: "/"
-                            },
-                            {
-                                label: 'Add New',
-                                href: "/add"
-                            },
-                            {
-                                label: 'Add New Client',
-                                href: "/newclient"
-                            },
-                        ].map((item, index) => <Link key={index} href={item.href} ><li className='py-2 px-4 hover:bg-[#455e87] cursor-pointer '>{item.label}</li></Link>)
+                        links.map((item, index) => <Link key={index} href={item.href} ><li className='py-2 px-4 hover:bg-[#455e87] cursor-pointer '>{item.label}</li></Link>)
                     }
                 </ul>
             </div>

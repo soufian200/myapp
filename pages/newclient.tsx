@@ -25,9 +25,9 @@ const NewClient: NextPage = () => {
             console.log(res.data)
             setMsg(res.data.msg)
             setName('')
-        } catch (e) {
+        } catch (e: any) {
 
-            setErr('failed to save client. please try again')
+            setErr(e.response.status < 500 ? e.response.data.msg : 'failed to save client. please try again')
         }
         setAddClientLoading(false)
     }

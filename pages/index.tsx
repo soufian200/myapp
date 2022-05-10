@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import Main from '../components/Main'
 import Select from 'react-select'
 import { AiOutlineClose, AiOutlineCloseCircle, AiOutlineDelete } from 'react-icons/ai'
+import Alert from '../components/Alert'
 var _ = require('lodash');
 
 const Home: NextPage = () => {
@@ -176,15 +177,7 @@ const Home: NextPage = () => {
 
         </div>
         {
-          msg && <div className='bg-red-100 flex items-center justify-between border border-red-400 text-red-600 p-3 mb-3 rounded'>
-            <div className='flex items-center'>
-              <AiOutlineCloseCircle size={25} />
-              <p className='ml-2 capitalize'>{msg}</p>
-            </div>
-            <div onClick={() => setMsg('')} className='w-[30px] h-[30px] hover:bg-red-200 rounded cursor-pointer flex justify-center items-center'>
-              <AiOutlineClose size={18} />
-            </div>
-          </div>
+          msg && <Alert msg={msg} setMsg={setMsg} />
         }
         <div className="bg-white shadow p-5">
 
@@ -228,7 +221,7 @@ const Home: NextPage = () => {
                         {index + 1}
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-500 capitalize">
                           {bill.client.name}
                         </div>
                       </td>
