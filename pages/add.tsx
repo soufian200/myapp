@@ -25,10 +25,10 @@ const Add: NextPage = () => {
         if (formData.client != '' && formData.dueDate != '' && formData.price != '' && formData.type != '') {
             setAddBillLoading(true)
             setMsg('')
-            console.log(formData)
+            // console.log(formData)
             try {
                 const res = await axios.post(`${location.origin}/api/bill/add`, formData)
-                console.log(res.data)
+                // console.log(res.data)
                 setMsg(res.data.msg)
                 setFormData({
                     client: '',
@@ -86,7 +86,7 @@ const Add: NextPage = () => {
 
 
     return (
-        <Main title='Add'>
+        <Main>
             <div className='flex flex-col  items-center justify-center'>
 
                 <div className="mb-3 w-[600px] ">
@@ -122,11 +122,6 @@ const Add: NextPage = () => {
                             <label className='mb-2 block'>Type Cheque:</label>
                             <Select instanceId="options1" onMenuOpen={getBillTypes} isSearchable={false} options={billTypes.data} isLoading={billTypes.loading} value={formData.type} onChange={e => setFormData({ ...formData, type: e })} className="mb-2 " placeholder="Type Cheque" styles={customStyles} />
                         </div>
-                        {/* <div className='mb-5'>
-                        <label className='mb-2 block'>Status / Etat:</label>
-                        <Select instanceId="options2" isSearchable={false} value={formData.status} onChange={(e) => setFormData({ ...formData, status: e })} options={options2} className="mb-2 " placeholder="Status / Etat" styles={customStyles} />
-                    </div> */}
-
                         <input type="submit" value={addBillLoading ? "Saving..." : "Save"} className={`w-full ${addBillLoading ? "bg-[#b7d8ff] hover:bg-[#b7d8ff] text-black pointer-events-none" : "bg-[#3690ff] hover:bg-blue-600 pointer-events-auto"} py-3  px-2 h-[45px] rounded-[4px] cursor-pointer text-white `} />
                     </form>
                 </div>

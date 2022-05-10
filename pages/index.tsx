@@ -31,7 +31,7 @@ const Home: NextPage = () => {
   const [billTypes, setBillTypes] = useState<{ loading: boolean, data: any }>({ loading: false, data: [] })
   const [filteredData, setFilteredData] = useState<any>({
     client: { value: '', label: 'Client' },
-    type: { value: '', label: 'Type' },
+    type: { value: '', label: 'Règlements Type' },
     dateRange: { from: '', to: '' },
     price: { min: '', max: '' }
   })
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
 
       const options = res.data.results.map((billTypes: any, index: number) => ({ value: billTypes._id, label: billTypes.label }))
 
-      setBillTypes({ ...billTypes, loading: false, data: [{ value: '', label: "Type" }, ...billTypes.data, ...options] })
+      setBillTypes({ ...billTypes, loading: false, data: [{ value: '', label: "Règlements Type" }, ...billTypes.data, ...options] })
 
     } catch (e) {
       console.log(e)
@@ -132,24 +132,24 @@ const Home: NextPage = () => {
 
 
   return (
-    <Main title='All'>
+    <Main >
       <div>
         <div className="mb-3 w-[600px] ">
           <h1 className="text-4xl">All</h1>
         </div>
         <div className='my-2 h-[38px]  flex items-center'>
-          <div className='w-[130px] mr-3'>
+          <div className='w-[110px] mr-3'>
             <Select instanceId="options" onMenuOpen={getClients} options={clients.data} isLoading={clients.loading} value={filteredData.client}
               onChange={e => {
                 setFilteredData({ ...filteredData, client: e })
               }}
               className="" placeholder="Client" />
           </div>
-          <div className='w-[130px] mr-3'>
+          <div className='w-[150px] mr-3'>
             <Select instanceId="options1" onMenuOpen={getBillTypes} isSearchable={false} options={billTypes.data} isLoading={billTypes.loading} value={filteredData.type}
               onChange={e => {
                 setFilteredData({ ...filteredData, type: e })
-              }} className=" " placeholder="Type" />
+              }} className=" " placeholder="Règlements Type" />
           </div>
           <div>
             <label className='text-gray-500'>From: </label>
@@ -167,7 +167,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className='flex items-center'>
-            <label className='text-gray-500'>Price: </label>
+            <label className='text-gray-500'>Montant: </label>
             <div className='flex '>
               <input placeholder='Min' type="number" value={filteredData.price.min} onChange={e => setFilteredData({ ...filteredData, price: { ...filteredData.price, min: e.target.value } })} className='h-[38px] w-[110px] rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  ml-2 border px-2' />
               <input placeholder='Max' type="number" value={filteredData.price.max} onChange={e => setFilteredData({ ...filteredData, price: { ...filteredData.price, max: e.target.value } })} className='h-[38px] w-[110px]  rounded-[4px] border-[#cccccc] outline-1 outline-blue-500  ml-2 border px-2' />
@@ -200,16 +200,16 @@ const Home: NextPage = () => {
                     Client
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
-                    Price/Montant (MAD)
+                    Montant (MAD)
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
-                    Status/Etat
+                    Etat
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
-                    Due Date / date échéance
+                    date d'échéance
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
-                    Type
+                    Règlements Type
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
                     CreatedAt

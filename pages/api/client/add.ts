@@ -6,18 +6,13 @@ import Client from '../../../models/Client';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
-  const names = ["D", "E", "F", "G"];
-  names.forEach(async (name) => {
+  const { name } = req.body;
 
-    var client = new Client({
-      name: `Client ${name}`
-    });
+  var client = new Client({ name });
 
-    await client.save();
+  await client.save();
 
-  })
-
-  return res.status(200).json({ msg: "New Client Added" })
+  return res.status(200).json({ msg: "New Client Added Successfully" })
 };
 
 export default connectDB(handler);
