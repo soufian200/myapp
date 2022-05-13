@@ -17,7 +17,10 @@ var bill = new Schema({
     type: Number,
     required: true
   },
-
+  status: {
+    type: String,
+    default: "encours"
+  },
   billType: {
     type: mongoose.Schema.Types.ObjectId,
     ref: BillType

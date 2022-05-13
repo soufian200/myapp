@@ -36,7 +36,7 @@ const Main = ({ children, }: { children: React.ReactElement, }) => {
         </Head>
 
         <div className=' flex w-screen h-screen overflow-hidden '>
-            <div className='w-2/12 h-screen overflow-hidden bg-[#031e49] text-white'>
+            <div className='w-2/12 h-screen overflow-hidden bg-[#031736] text-white'>
                 <ul className='mt-10 '>
                     {
                         links.map((item, index) => <Link key={index} href={item.href} >
