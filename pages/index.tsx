@@ -15,16 +15,6 @@ const Home: NextPage = () => {
 
   const formatDate = (date: string) => moment(date).format("YYYY-MM-DD");
 
-  const getBillStatus = (dueDate: string, billType: string) => {
-
-    if (moment().isBefore(dueDate)) {
-      return "Encour"
-    }
-    else if (moment().isAfter(dueDate)) {
-      return billType === "Traite" ? "Impayé" : "Encour"
-    }
-
-  }
 
   const [bills, setBills] = useState([])
   const [billsLoading, setBillsLoading] = useState(true)
@@ -33,6 +23,7 @@ const Home: NextPage = () => {
   const [billTypes, setBillTypes] = useState<{ loading: boolean, data: any }>({ loading: false, data: [] })
   const [filteredData, setFilteredData] = useState<any>({
     client: { value: '', label: 'Client' },
+    etat: { value: '', label: 'Etat' },
     type: { value: '', label: 'Règlement' },
     dateRange: { from: '', to: '' },
     price: { min: '', max: '' }
@@ -72,6 +63,14 @@ const Home: NextPage = () => {
       console.log(e)
     }
   }
+
+  const statusOptions = [
+    { value: '', label: "Etat", },
+    { value: "Encours", label: "Encours", },
+    { value: "Paye", label: "Paye", },
+    { value: "Impayé", label: "Impayé", },
+    { value: "Encaisser", label: "Encaisser", },
+  ]
 
   useEffect(() => {
 
@@ -130,6 +129,9 @@ const Home: NextPage = () => {
     if (filteredData.price.max != '') {
       r = _.filter(r, (i: any) => i.price <= Number(filteredData.price.max));
     }
+    if (filteredData.etat.value != '') {
+      r = _.filter(r, (i: any) => i.status.toLowerCase() === filteredData.etat.value.toLowerCase());
+    }
     setBills(r)
 
 
@@ -187,14 +189,19 @@ const Home: NextPage = () => {
             <Select instanceId="options" onMenuOpen={getClients} options={clients.data} isLoading={clients.loading} value={filteredData.client}
               onChange={e => {
                 setFilteredData({ ...filteredData, client: e })
-              }}
-              className="" placeholder="Client" />
+              }} placeholder="Client" />
+          </div>
+          <div className='w-[130px] mr-3'>
+            <Select instanceId="options1" isSearchable={false} options={statusOptions} value={filteredData.etat}
+              onChange={e => {
+                setFilteredData({ ...filteredData, etat: e })
+              }} placeholder="Etat" />
           </div>
           <div className='w-[150px] mr-3'>
-            <Select instanceId="options1" onMenuOpen={getBillTypes} isSearchable={false} options={billTypes.data} isLoading={billTypes.loading} value={filteredData.type}
+            <Select instanceId="options2" onMenuOpen={getBillTypes} isSearchable={false} options={billTypes.data} isLoading={billTypes.loading} value={filteredData.type}
               onChange={e => {
                 setFilteredData({ ...filteredData, type: e })
-              }} className=" " placeholder="Règlement Type" />
+              }} placeholder="Règlement Type" />
           </div>
           <div>
             <label className='text-gray-500'>From: </label>

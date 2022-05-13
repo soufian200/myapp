@@ -12,12 +12,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
 
     let r;
 
-    if (type === "Traite" && moment().isAfter(dueDate)) {
-        r = await Bill.findByIdAndUpdate(id, { status: "Impayé" })
-    } else {
+    r = await Bill.findByIdAndUpdate(id, { status: type === "Cheque" ? "Encaisser" : "Paye" })
 
-        r = await Bill.findByIdAndUpdate(id, { status: type === "Cheque" ? "Encaisser" : "Paye" })
-    }
 
     return res.status(200).json({ msg: "Status Updated successfully" })
 };
