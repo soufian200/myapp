@@ -245,7 +245,7 @@ const Home: NextPage = () => {
                     Etat
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
-                    date d'échéance
+                    date d{"'"}échéance
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
                     Règlement
