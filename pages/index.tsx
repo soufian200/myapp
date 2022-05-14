@@ -30,6 +30,7 @@ const Home: NextPage = () => {
   })
   const [msg, setMsg] = useState('')
   const [deleteBillLoading, setDeleteBillLoading] = useState(false)
+  const [idToChange, setIdToChange] = useState('')
   const [updateStatusLoading, setUpdateStatusLoading] = useState(false)
 
   const getClients = async () => {
@@ -142,7 +143,7 @@ const Home: NextPage = () => {
 
 
   const handleDelete = async (id: string) => {
-
+    setIdToChange(id)
     setDeleteBillLoading(true)
     setMsg('')
     try {
@@ -154,14 +155,12 @@ const Home: NextPage = () => {
     } catch (e) {
       console.log(e)
     }
+    setIdToChange('')
     setDeleteBillLoading(false)
   }
 
   const handleUpdateStatus = async (id: string, type: string, dueDate: string) => {
-    console.log(id)
-    console.log(type)
-    console.log(dueDate)
-
+    setIdToChange(id)
     setUpdateStatusLoading(true)
     setMsg('')
     try {
@@ -174,6 +173,7 @@ const Home: NextPage = () => {
     } catch (e) {
       console.log(e)
     }
+    setIdToChange('')
     setUpdateStatusLoading(false)
 
   }
@@ -245,7 +245,7 @@ const Home: NextPage = () => {
                     Etat
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
-                    date d'échéance
+                    date d{"'"}échéance
                   </th>
                   <th className="px-6 py-3 text-left text-sm text-gray-500">
                     Règlement
@@ -261,8 +261,6 @@ const Home: NextPage = () => {
               {bills.length > 0 && !billsLoading && <tbody className="bg-white">
                 {
                   bills.map((bill: any, index) => {
-
-
 
                     return <tr key={index} className="whitespace-nowrap">
                       <td className="px-6 py-4 text-sm text-gray-500">
@@ -291,13 +289,13 @@ const Home: NextPage = () => {
                       <td className="px-6 py-4 text-sm text-gray-500">
                         <div className='flex items-center' >
                           <div onClick={() => handleDelete(bill._id)} className={` ${deleteBillLoading ? "pointer-events-none" : "pointer-events-auto"} w-[30px] h-[30px] rounded-full cursor-pointer hover:bg-red-100 text-red-500 flex justify-center items-center`}>
-                            {!deleteBillLoading ? <AiOutlineDelete size={20} /> : <h1>...</h1>}
+                            {deleteBillLoading && bill._id === idToChange ? <h1>...</h1> : <AiOutlineDelete size={20} />}
                           </div>
                           {bill.status === "encours" && <div
                             title={`Mark as ${bill.billType.label === "Cheque" ? "Encaisser " : "Paye"}`}
                             onClick={() => handleUpdateStatus(bill._id, bill.billType.label, bill.dueDate)}
                             className={`ml-2 ${updateStatusLoading ? "pointer-events-none" : "pointer-events-auto"} w-[30px] h-[30px] rounded-full cursor-pointer hover:bg-green-100 text-green-500 flex justify-center items-center`}>
-                            {!updateStatusLoading ? <AiOutlineCheck size={20} /> : <h1>...</h1>}
+                            {updateStatusLoading && bill._id === idToChange ? <h1>...</h1> : <AiOutlineCheck size={20} />}
                           </div>}
                         </div>
                       </td>
